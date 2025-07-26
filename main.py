@@ -11,7 +11,8 @@ class Hangman:
         self.word: str = self.choose_difficulty().lower()
         self.hidden_word: list = ["_" for letter in self.word]
 
-    def choose_difficulty(self):
+    def choose_difficulty(self) -> str:
+        """Ask the player the difficulty in which they want to play then set the number of tries they have and choose a word in the dictionary"""
         dictionary: list = list(get_english_words_set(["web2"], lower=True))
         while True:
             difficulty = input(
@@ -43,16 +44,13 @@ class Hangman:
                         print("\nYou have chosen the hard difficulty")
                         self.tries.extend(["_" for t in range(3)])
                         return choice([word for word in dictionary if len(word) == 3])
+                    case _:
+                        print("Please choose between 1, 2 and 3!")
             except ValueError:
-                print("Please choose between 1, 2 and 3!")
+                print("\nPlease choose between 1, 2 and 3!")
 
-    def check_tries(self):
-        if "_" in self.tries:
-            return False
-        else:
-            return True
-
-    def player_input(self):
+    def player_input(self) -> str:
+        """Ask for the player input, check if the input is valid then return the string"""
         while True:
             letter = input("\nPlease choose one letter: ")
             if (
@@ -71,30 +69,42 @@ class Hangman:
                 print("\nSorry, that wasn't a valid input.")
 
 
-def main():
+def main() -> None:
     hangman = Hangman()
+
+    def restart() -> None:
+        """Function to restart or to end the game"""
+        while True:
+            question = input("\nDo you wanna play again(Y/N)? ")
+            if question.lower() == "y":
+                main()
+            elif question.lower() == "n":
+                quit()
+            else:
+                print("Please, answer with Y or N.")
+
     while True:
         if "_" in hangman.tries and "_" in hangman.hidden_word:
             print(
-                f"\nTries: {' '.join([i for i in hangman.tries])}\nTried letters: {' '.join([l for l in hangman.tried_letter])} \nWord: {' '.join(hangman.hidden_word)}"
+                f"\nTries: {' '.join([item for item in hangman.tries])}\nTried letters: {' '.join([letter for letter in hangman.tried_letter])} \nWord: {' '.join(hangman.hidden_word)}"
             )
             letter = hangman.player_input()
             if letter in hangman.word:
-                for l in list(enumerate(hangman.word)):
-                    if l[1] == letter:
-                        hangman.hidden_word[l[0]] = letter
+                for item in list(enumerate(hangman.word)):
+                    if item[1] == letter:
+                        hangman.hidden_word[item[0]] = letter
             else:
                 hangman.tries[hangman.tries.index("_")] = "X"
         elif "_" not in hangman.tries:
             print(
-                f"\nYou lose! \nTries: {' '.join([i for i in hangman.tries])}\nTried letters: {' '.join([l for l in hangman.tried_letter])} \nThe word was: {hangman.word}"
+                f"\nYou lose! \nTries: {' '.join([item for item in hangman.tries])}\nTried letters: {' '.join([letter for letter in hangman.tried_letter])} \nThe word was: {hangman.word}"
             )
-            break
+            restart()
         elif "_" not in hangman.hidden_word:
             print(
-                f"\nYou won! \nTries: {' '.join([i for i in hangman.tries])}\nTried letters: {' '.join([l for l in hangman.tried_letter])} \nThe word was: {hangman.word}"
+                f"\nYou won! \nTries: {' '.join([item for item in hangman.tries])}\nTried letters: {' '.join([letter for letter in hangman.tried_letter])} \nThe word was: {hangman.word}"
             )
-            break
+            restart()
 
 
 if __name__ == "__main__":
