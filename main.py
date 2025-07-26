@@ -12,7 +12,10 @@ class Hangman:
         self.hidden_word: list = ["_" for letter in self.word]
 
     def choose_difficulty(self) -> str:
-        """Ask the player the difficulty in which they want to play then set the number of tries they have and choose a word in the dictionary"""
+        """
+        Ask the player the difficulty in which they want to play then set the number of 
+        tries they have and choose a word in the dictionary
+        """
         dictionary: list = list(get_english_words_set(["web2"], lower=True))
         while True:
             difficulty = input(
@@ -86,7 +89,9 @@ def main() -> None:
     while True:
         if "_" in hangman.tries and "_" in hangman.hidden_word:
             print(
-                f"\nTries: {' '.join([item for item in hangman.tries])}\nTried letters: {' '.join([letter for letter in hangman.tried_letter])} \nWord: {' '.join(hangman.hidden_word)}"
+                f"\nTries: {' '.join([item for item in hangman.tries])}"
+                f"\nTried letters: {' '.join([letter for letter in hangman.tried_letter])}"
+                f"\nWord: {' '.join(hangman.hidden_word)}"
             )
             letter = hangman.player_input()
             if letter in hangman.word:
@@ -97,12 +102,16 @@ def main() -> None:
                 hangman.tries[hangman.tries.index("_")] = "X"
         elif "_" not in hangman.tries:
             print(
-                f"\nYou lose! \nTries: {' '.join([item for item in hangman.tries])}\nTried letters: {' '.join([letter for letter in hangman.tried_letter])} \nThe word was: {hangman.word}"
+                f"\nYou lose! \nTries: {' '.join([item for item in hangman.tries])}"
+                f"\nTried letters: {' '.join([letter for letter in hangman.tried_letter])}"
+                f"\nThe word was: {hangman.word}"
             )
             restart()
         elif "_" not in hangman.hidden_word:
             print(
-                f"\nYou won! \nTries: {' '.join([item for item in hangman.tries])}\nTried letters: {' '.join([letter for letter in hangman.tried_letter])} \nThe word was: {hangman.word}"
+                f"\nYou won! \nTries: {' '.join([item for item in hangman.tries])}"
+                f"\nTried letters: {' '.join([letter for letter in hangman.tried_letter])}"
+                f"\nThe word was: {hangman.word}"
             )
             restart()
 
